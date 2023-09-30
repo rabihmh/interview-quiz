@@ -14,13 +14,13 @@ return [
             ['url' => 'admin.categories.create', 'label' => 'Create'],
         ]
     ],
-//    [
-//        'icon' => 'fas fa-fw fa-wrench',
-//        'label' => 'Products',
-//        'submenu' => [
-//            ['url' => 'admin.products.index', 'label' => 'index'],
-//            ['url' => 'admin.products.create', 'label' => 'Create'],
-//        ]
-//    ],
+    [
+        'icon' => 'fas fa-fw fa-wrench',
+        'label' => 'Products',
+        'submenu' => [
+            ['url' => 'admin.products.index', 'label' => 'index'],
+            ['url' => 'admin.products.create', 'label' => 'Create'],
+        ]
+    ],
 
 ];

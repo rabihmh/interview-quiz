@@ -5,13 +5,31 @@
         <tr>
             <th>ID</th>
             <th>Name</th>
-            <th>Store</th>
             <th>Status</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Image</th>
             <th>Created At</th>
         </tr>
         </thead>
         <tbody>
+        @forelse($category->products as $product)
 
+            <tr>
+                <td>{{$loop->iteration}}</td>
+                <td>{{$product->name}}</td>
+                <td>{{$product->status}}</td>
+                <td>{{$product->price}}</td>
+                <td>{{$product->quantity}}</td>
+                <td><img src="{{$product->image_url}}" height="100"></td>
+                <td>{{$product->created_at}}</td>
+
+            </tr>
+        @empty
+            <tr>
+                <td class="text-center text-danger text-lg text-bold" colspan="9">No products defined</td>
+            </tr>
+        @endforelse
         </tbody>
     </table>
 

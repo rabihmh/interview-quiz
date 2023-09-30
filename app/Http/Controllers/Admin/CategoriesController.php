@@ -21,7 +21,7 @@ class CategoriesController extends Controller
     public function index(): View
     {
         $request = request();
-        $categories = Category::with('parent')
+        $categories = Category::with('parent')->withCount('products')
             ->filter($request->query())
             ->orderBy('categories.name')
             ->paginate();
@@ -59,7 +59,7 @@ class CategoriesController extends Controller
      */
     public function show(string $id)
     {
-        $category = Category::query()->select(['id', 'name', 'slug'])->findOrFail($id);
+        $category = Category::query()->select(['id', 'name', 'slug'])->with('products')->findOrFail($id);
         return view('admin.categories.show', compact('category'));
     }
 
@@ -87,7 +87,7 @@ class CategoriesController extends Controller
         $data = $request->except('image');
         if ($request->hasFile('image')) {
             $this->deleteImage($old_image);
-            $data['image'] = $this->uploadImage($request->file('image'), 'category');
+            $data['image'] = $this->uploadImage($request->file('image'), 'categories');
         }
         $category->update($data);
         return redirect()->route('admin.categories.index')->with('success', 'updated successfully');

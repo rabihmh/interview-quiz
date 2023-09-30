@@ -29,7 +29,7 @@
                 <td><a href="{{route('admin.categories.show',$category->id)}}">{{$category->name}}</a></td>
                 <td>{{$category->parent->name}}</td>
                 <td>{{$category->status}}</td>
-                <td>to do nb of products</td>
+                <td>{{$category->products_count}}</td>
                 <td>{{$category->created_at}}</td>
                 <td><img src="{{asset('storage/'.$category->image)}}" alt="{{$category->name}}" height="50"></td>
                 <td class="d-flex justify-content-between">

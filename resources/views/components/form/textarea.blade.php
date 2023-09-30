@@ -15,4 +15,3 @@
 >{{ old($name, $value) }}</textarea>
 
 <x-form.validation-feedback :name="$name"/>
-Footer
