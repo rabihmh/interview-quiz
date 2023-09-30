@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -27,6 +28,11 @@ class Product extends Model
         static::updating(function (Product $product) {
             $product->slug = Str::slug($product->name);
         });
+    }
+
+    public function scopeActive(Builder $builder)
+    {
+        $builder->where('status', '=', 'active');
     }
 
     public function getImageUrlAttribute()
