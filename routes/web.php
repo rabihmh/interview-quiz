@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'home'])->name('home');
 Route::group(['middleware' => ['auth:web'], 'as' => 'front.'], function () {
+    Route::get('products/search/', [ProductsController::class, 'search'])->name('products.search');
     Route::resource('products', ProductsController::class)->only(['index', 'show']);
     Route::resource('cart', CartController::class);
 

@@ -1,5 +1,8 @@
 <div class="single-product">
     <div class="product-image">
+        @if($product->compare_price)
+            <span class="sale-tag">{{$product->sale_percentage_discount}}</span>
+        @endif
         <img src="{{$product->image_url}}" alt="product image">
         @if($product->sale_percentage_discount)
             <span class="sale-tag">{{$product->sale_percentage_discount}}</span>

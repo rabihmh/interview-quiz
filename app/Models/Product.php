@@ -13,7 +13,7 @@ class Product extends Model
     use HasFactory;
 
     protected $guarded = ['id'];
-    protected $appends = ['image_url'];
+    protected $appends = ['image_url', 'sale_percentage_discount'];
 
     public function category(): BelongsTo
     {
@@ -45,4 +45,14 @@ class Product extends Model
         }
         return asset('storage/' . $this->image);
     }
+
+    public function getSalePercentageDiscountAttribute(): int|string
+    {
+        if (!$this->compare_price) {
+            return 0;
+        }
+
+        return round(100 * $this->price / $this->compare_price, 1) - 100. . '%';
+    }
+
 }

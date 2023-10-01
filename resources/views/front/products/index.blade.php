@@ -1,6 +1,12 @@
 <x-front-layout title="All Products">
     @push('styles')
         <style>
+            #loading-image {
+                display: none;
+                text-align: center;
+                margin-top: 60px
+            }
+
             .pagination {
                 display: flex;
             }
@@ -39,81 +45,66 @@
                         <!-- Start Single Widget -->
                         <div class="single-widget search">
                             <h3>Search Product</h3>
-                            <form action="#">
-                                <input type="text" placeholder="Search Here...">
-                                <button type="submit"><i class="lni lni-search-alt"></i></button>
+                            <form id="search-form">
+                                <input type="text" placeholder="Search Here..." id="search-input">
+                                <button type="button" id="search-button"><i class="lni lni-search-alt"></i></button>
                             </form>
                         </div>
                         <!-- End Single Widget -->
                         <!-- Start Single Widget -->
-                        <div class="single-widget">
+                        <div class="single-widget condition">
                             <h3>All Categories</h3>
-                            <ul class="list">
-                                <li>
-                                    <a href="product-grids.html">Computers & Accessories </a><span>(1138)</span>
-                                </li>
-                                <li>
-                                    <a href="product-grids.html">Smartphones & Tablets</a><span>(2356)</span>
-                                </li>
-                                <li>
-                                    <a href="product-grids.html">TV, Video & Audio</a><span>(420)</span>
-                                </li>
-                                <li>
-                                    <a href="product-grids.html">Cameras, Photo & Video</a><span>(874)</span>
-                                </li>
-                                <li>
-                                    <a href="product-grids.html">Headphones</a><span>(1239)</span>
-                                </li>
-                                <li>
-                                    <a href="product-grids.html">Wearable Electronics</a><span>(340)</span>
-                                </li>
-                                <li>
-                                    <a href="product-grids.html">Printers & Ink</a><span>(512)</span>
-                                </li>
-                            </ul>
+                            @foreach($categories as $category)
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="{{$category->id}}"
+                                           name="category_id"
+                                           id="category-filter-{{$category->id}}">
+                                    <label class="form-check-label" for="category-filter-{{$category->id}}">
+                                        {{$category->name}}
+                                    </label>
+                                </div>
+                            @endforeach
                         </div>
                         <!-- End Single Widget -->
-                        <!-- Start Single Widget -->
-                        <div class="single-widget range">
-                            <h3>Price Range</h3>
-                            <input type="range" class="form-range" name="range" step="1" min="100" max="10000"
-                                   value="10" onchange="rangePrimary.value=value">
-                            <div class="range-inner">
-                                <label>$</label>
-                                <input type="text" id="rangePrimary" placeholder="100"/>
-                            </div>
-                        </div>
-                        <!-- End Single Widget -->
+
                         <!-- Start Single Widget -->
                         <div class="single-widget condition">
                             <h3>Filter by Price</h3>
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault1">
-                                <label class="form-check-label" for="flexCheckDefault1">
-                                    $50 - $100L (208)
+                                <input class="form-check-input price-filter" type="checkbox" value="50-100"
+                                       id="price-filter-1">
+                                <label class="form-check-label" for="price-filter-1">
+                                    $50 - $100
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault2">
-                                <label class="form-check-label" for="flexCheckDefault2">
-                                    $100L - $500 (311)
+                                <input class="form-check-input price-filter" type="checkbox" value="100-150"
+                                       id="price-filter-2">
+                                <label class="form-check-label" for="price-filter-2">
+                                    $100 - $150
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault3">
-                                <label class="form-check-label" for="flexCheckDefault3">
-                                    $500 - $1,000 (485)
+                                <input class="form-check-input price-filter" type="checkbox" value="150-200"
+                                       id="price-filter-3">
+                                <label class="form-check-label" for="price-filter-3">
+                                    $150 - $200
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault4">
-                                <label class="form-check-label" for="flexCheckDefault4">
-                                    $1,000 - $5,000 (213)
+                                <input class="form-check-input price-filter" type="checkbox" value="200-300"
+                                       id="price-filter-4">
+                                <label class="form-check-label" for="price-filter-4">
+                                    $200 - $300
                                 </label>
                             </div>
+                            <!-- Add more price range filters here -->
                         </div>
                         <!-- End Single Widget -->
+                        <button id="search-btn" class="btn btn-primary" type="submit">Search</button>
+
                     </div>
+
                     <!-- End Product Sidebar -->
                 </div>
                 <div class="col-lg-9 col-12">
@@ -145,15 +136,22 @@
                                 </div>
                             </div>
                         </div>
+                        <div id="loading-image">
+                            <img src="{{asset('front/images/loading.gif')}}" alt="Loading...">
+                        </div>
                         <div class="tab-content" id="nav-tabContent">
                             <div class="tab-pane fade show active" id="nav-grid" role="tabpanel"
                                  aria-labelledby="nav-grid-tab">
-                                <div class="row">
+                                <div class="row product-content">
                                     @foreach($products as $product)
                                         <div class="col-lg-4 col-md-6 col-12">
                                             <!-- Start Single Product -->
                                             <div class="single-product">
                                                 <div class="product-image">
+                                                    @if($product->compare_price)
+                                                        <span
+                                                            class="sale-tag">{{$product->sale_percentage_discount}}</span>
+                                                    @endif
                                                     <img src="{{$product->image_url}}" alt="#">
                                                     <div class="button">
                                                         <a href="{{route('front.products.show',$product->id)}}"
@@ -166,6 +164,7 @@
                                                     <h4 class="title">
                                                         <a href="#">{{$product->name}}</a>
                                                     </h4>
+                                                    <span>Quantity:{{$product->quantity}}</span>
                                                     <ul class="review">
                                                         <li><i class="lni lni-star-filled"></i></li>
                                                         <li><i class="lni lni-star-filled"></i></li>
@@ -176,6 +175,10 @@
                                                     </ul>
                                                     <div class="price">
                                                         <span>{{App\Helpers\Currency::format( $product->price)}}</span>
+                                                        @if($product->compare_price)
+                                                            <span
+                                                                class="discount-price">{{App\Helpers\Currency::format( $product->compare_price)}}</span>
+                                                        @endif
                                                     </div>
                                                 </div>
                                             </div>
@@ -183,7 +186,7 @@
                                         </div>
                                     @endforeach
                                 </div>
-                                <div class="row">
+                                <div class="row my-pagination">
                                     <div class="col-12">
                                         <!-- Pagination -->
                                         <div>
@@ -200,5 +203,104 @@
         </div>
     </section>
     <!-- End Product Grids -->
+    @push('scripts')
+        <script src="{{asset('admin/vendor/jquery/jquery.js')}}"></script>
+        <script>
+            var currencyCode = '{{ config('app.currency', 'USD') }}';
+        </script>
 
+        <script>
+            // Function to format currency in JavaScript
+            function formatCurrency(amount, currency) {
+                const formatter = new Intl.NumberFormat('en-US', {
+                    style: 'currency',
+                    currency: currency,
+                });
+                return formatter.format(amount);
+            }
+
+            $(document).ready(function () {
+                $('#search-btn').click(function (e) {
+                    e.preventDefault();
+                    let searchTerm = $('#search-input').val();
+                    let categoryFilters = getCheckedValues('.form-check-input:checked[name="category_id"]');
+                    let priceFilters = getCheckedValues('.price-filter:checked');
+
+                    $.ajax({
+                        url: '{{ route('front.products.search') }}',
+                        type: 'GET',
+                        data: {
+                            categories: categoryFilters,
+                            prices: priceFilters,
+                            searchTerm: searchTerm
+                        },
+                        success: function (response) {
+                            updateProducts(response);
+                        },
+                        error: function () {
+                            alert('An error occurred while fetching data.');
+                        }
+                    });
+                });
+
+                function getCheckedValues(selector) {
+                    let values = [];
+                    $(selector).each(function () {
+                        values.push($(this).val());
+                    });
+                    return values;
+                }
+
+                function updateProducts(response) {
+                    $('.single-product').remove();
+                    $('.my-pagination').remove();
+
+                    $('#loading-image').show();
+
+                    setTimeout(function () {
+                        $('#loading-image').hide();
+
+                        $.each(response, function (index, product) {
+                            var productHtml = `
+                        <!-- Start Single Product -->
+                        <div class="col-lg-4 col-md-6 col-12">
+                            <div class="single-product">
+                                <div class="product-image">
+                                    ${product.sale_percentage_discount ? '<span class="sale-tag">' + product.sale_percentage_discount + '</span>' : ''}
+                                    <img src="${product.image_url}" alt="#">
+                                    <div class="button">
+                                        <a href="" class="btn"><i class="lni lni-cart"></i> Add to Cart</a>
+                                    </div>
+                                </div>
+                                <div class="product-info">
+                                    <span class="category">${product.category.name}</span>
+                                    <h4 class="title">
+                                        <a href="">${product.name}</a>
+                                    </h4>
+                                    <span>Quantity: ${product.quantity}</span>
+                                   <ul class="review">
+                                                        <li><i class="lni lni-star-filled"></i></li>
+                                                        <li><i class="lni lni-star-filled"></i></li>
+                                                        <li><i class="lni lni-star-filled"></i></li>
+                                                        <li><i class="lni lni-star-filled"></i></li>
+                                                        <li><i class="lni lni-star"></i></li>
+                                                        <li><span>4.0 Review(s)</span></li>
+                                                    </ul>
+                                   <div class="price">
+                <span>${formatCurrency(product.price, currencyCode)}</span>
+                ${product.compare_price ? '<span class="discount-price">' + formatCurrency(product.compare_price, currencyCode) + '</span>' : ''}
+            </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End Single Product -->
+                    `;
+                            $('.row.product-content').append(productHtml);
+                        });
+                    }, 1000);
+                }
+            });
+        </script>
+
+    @endpush
 </x-front-layout>
