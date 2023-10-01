@@ -43,7 +43,7 @@ class CheckoutController extends Controller
 
             $order = Order::create([
                 'user_id' => Auth::id(),
-                'payment_method' => 'cod',
+                'payment_method' => 'stripe',
             ]);
             foreach ($items as $item) {
                 OrderItem::create([
@@ -59,7 +59,7 @@ class CheckoutController extends Controller
                 $order->addresses()->create($address);
             }
             DB::commit();
-            $cart->empty();
+            event(new OrderCreate($order));
         } catch (Throwable $e) {
             DB::rollBack();
             throw $e;

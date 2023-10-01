@@ -23,11 +23,11 @@ class PaymentsController extends Controller
     public function createStripePaymentIntent(Order $order): array
     {
         $amount = $order->items->sum(function ($item) {
-            return $item->price * $item->quantity;
+            return (int)$item->price * $item->quantity;
         });
         $stripe = new StripeClient(config('services.stripe.secret_key'));
         $paymentIntent = $stripe->paymentIntents->create([
-            'amount' => (int)($amount * 100),//amount in cent
+            'amount' => $amount,
             'currency' => 'usd',
             'payment_method_types' => ['card'],
         ]);
@@ -47,6 +47,9 @@ class PaymentsController extends Controller
             if ($paymentIntent->status == 'succeeded') {
 
                 $payment = new Payment();
+                $order->payment_status = 'paid';
+                $order->status = 'completed';
+                $order->save();
                 $payment->forceFill([
                     'order_id' => $order->id,
                     'amount' => $paymentIntent->amount,

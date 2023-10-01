@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Admin;
 use Illuminate\Support\Facades\Broadcast;
 
 /*
@@ -13,6 +14,10 @@ use Illuminate\Support\Facades\Broadcast;
 |
 */
 
-Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
-    return (int) $user->id === (int) $id;
-});
+//Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
+//    return (int) $user->id === (int) $id;
+//});
+Broadcast::channel('App.Models.Admin.{id}', function ($admin, $id) {
+    // Check if the authenticated user is an admin and their ID matches the channel ID
+    return $admin instanceof Admin && $admin->id === (int)$id;
+}, ['guards' => 'admin']);
