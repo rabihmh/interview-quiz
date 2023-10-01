@@ -100,10 +100,7 @@
 
                                         </ul>
                                         <div class="button">
-                                            <a href="checkout.html" class="btn">Checkout</a>
-                                            <a href="product-grids.html" class="btn btn-alt"
-                                            >Continue shopping</a
-                                            >
+                                            <a href="{{route('front.checkout')}}" class="btn">Checkout</a>
                                         </div>
                                     </div>
                                 </div>

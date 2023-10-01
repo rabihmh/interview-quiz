@@ -35,6 +35,11 @@ class Product extends Model
         $builder->where('status', '=', 'active');
     }
 
+    public function scopeWithAvailableQuantity(Builder $builder)
+    {
+        $builder->where('quantity', '>=', 1);
+    }
+
     public function getImageUrlAttribute()
     {
         if (!$this->image) {

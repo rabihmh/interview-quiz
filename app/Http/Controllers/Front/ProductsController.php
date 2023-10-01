@@ -18,7 +18,7 @@ class ProductsController extends Controller
     public function index(): View
     {
         $categories = Category::active()->get();
-        $products = Product::query()->with('category:id,name')->paginate();
+        $products = Product::query()->withAvailableQuantity()->with('category:id,name')->paginate();
         return view('front.products.index', compact('products', 'categories'));
     }
 

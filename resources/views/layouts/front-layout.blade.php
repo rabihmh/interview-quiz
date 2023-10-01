@@ -236,7 +236,7 @@
 <!--Start breadcrumbs-->
 {{$breadcrumbs??""}}
 <!--Start breadcrumbs-->
-
+@include('partials.flash-message')
 <!--Variable section-->
 {{$slot}}
 <!--Variable section-->

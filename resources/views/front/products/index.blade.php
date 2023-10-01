@@ -112,17 +112,6 @@
                         <div class="product-grid-topbar">
                             <div class="row align-items-center">
                                 <div class="col-lg-7 col-md-8 col-12">
-                                    <div class="product-sorting">
-                                        <label for="sorting">Sort by:</label>
-                                        <select class="form-control" id="sorting">
-                                            <option>Popularity</option>
-                                            <option>Low - High Price</option>
-                                            <option>High - Low Price</option>
-                                            <option>Average Rating</option>
-                                            <option>A - Z Order</option>
-                                            <option>Z - A Order</option>
-                                        </select>
-                                    </div>
                                 </div>
                                 <div class="col-lg-5 col-md-4 col-12">
                                     <nav>
@@ -269,13 +258,13 @@
                                     ${product.sale_percentage_discount ? '<span class="sale-tag">' + product.sale_percentage_discount + '</span>' : ''}
                                     <img src="${product.image_url}" alt="#">
                                     <div class="button">
-                                        <a href="" class="btn"><i class="lni lni-cart"></i> Add to Cart</a>
+                                        <a href="http://127.0.0.1:8000/products/${product.id}" class="btn"><i class="lni lni-cart"></i> Add to Cart</a>
                                     </div>
                                 </div>
                                 <div class="product-info">
                                     <span class="category">${product.category.name}</span>
                                     <h4 class="title">
-                                        <a href="">${product.name}</a>
+                                        <a href="http://127.0.0.1:8000/products/${product.id}">${product.name}</a>
                                     </h4>
                                     <span>Quantity: ${product.quantity}</span>
                                    <ul class="review">

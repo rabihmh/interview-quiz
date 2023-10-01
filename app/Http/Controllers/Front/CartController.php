@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
+use App\Models\Cart;
 use App\Models\Product;
 use App\Repositories\Cart\CartRepository;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\View\View;
 
 class CartController extends Controller
@@ -39,15 +39,32 @@ class CartController extends Controller
             'product_id' => ['required', 'int', 'exists:products,id'],
             'quantity' => ['nullable', 'int', 'min:1']
         ]);
+
         $product = Product::findOrFail($request->post('product_id'));
-        $this->cart->add($product, $request->post('quantity'));
+        $quantityToAdd = $request->post('quantity', 1);
+
+        if ($product->quantity < $quantityToAdd) {
+            if ($request->expectsJson()) {
+                return response()->json([
+                    'message' => 'Not enough quantity available for this product.'
+                ], 422);
+            }
+
+            return redirect()->route('front.cart.index')->with(['error' => 'Not enough quantity available for this product.']);
+        }
+
+        $product->quantity -= $quantityToAdd;
+        $product->save();
+
+        $this->cart->add($product, $quantityToAdd);
 
         if ($request->expectsJson()) {
             return response()->json([
                 'message' => 'Item added to cart'
             ], 201);
         }
-        return redirect()->route('front.cart.index')->with(['success' => 'Product add to cart']);
+
+        return redirect()->route('front.cart.index')->with(['success' => 'Product added to cart']);
     }
 
     /**
@@ -55,15 +72,38 @@ class CartController extends Controller
      *
      * @param Request $request
      * @param int $id
-     * @return Response
+     * @return JsonResponse
      */
     public function update(Request $request, $id)
     {
         $request->validate([
             'quantity' => ['required', 'int', 'min:1']
         ]);
-        $this->cart->update($id, $request->post('quantity'));
+
+        $cart = Cart::findOrFail($id);
+
+        $product = Product::where('id', $cart->product_id)->first();
+
+        $currentQuantity = $cart->quantity;
+        $newQuantity = (int)$request->post('quantity');
+        $quantityDifference = $newQuantity - $currentQuantity;
+
+        if ($product->quantity < $quantityDifference) {
+            return response()->json([
+                'message' => 'Requested quantity exceeds the available quantity for this product.',
+            ], 422);
+        }
+
+        $this->cart->update($id, $newQuantity);
+
+        $product->quantity -= $quantityDifference;
+        $product->save();
+
+        return response()->json([
+            'message' => 'Cart item updated',
+        ]);
     }
+
 
     /**
      * Remove the specified resource from storage.

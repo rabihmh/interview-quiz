@@ -3,11 +3,18 @@
     $('#item-quantity').on('change', function (e) {
 
         $.ajax({
-            url: "/cart/" + $(this).data('id'), //data-id
+            url: "/cart/" + $(this).data('id'),
             method: 'put',
             data: {
                 quantity: $(this).val(),
                 _token: csrf_token
+            },
+            success: function (response) {
+                alert('Cart item updated successfully.');
+            },
+            error: function (xhr, status, error) {
+                var errorMessage = xhr.responseJSON ? xhr.responseJSON.message : 'Error updating cart item.';
+                alert(errorMessage);
             }
         });
     });
@@ -21,6 +28,7 @@
             },
             success: response => {
                 $(`#${id}`).remove()
+                alert('Item Removed Successfully')
 
             }
         });
