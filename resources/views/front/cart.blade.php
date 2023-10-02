@@ -50,20 +50,17 @@
                     <div class="cart-single-list" id="{{$item->id}}">
                         <div class="row align-items-center">
                             <div class="col-lg-1 col-md-1 col-12">
-                                <a href="{{route('front.products.show',$item->products->slug)}}"
+                                <a href="{{route('front.products.show',$item->products->id)}}"
                                 ><img src="{{$item->products->image_url}}" alt="#"
                                     /></a>
                             </div>
                             <div class="col-lg-4 col-md-3 col-12">
                                 <h5 class="product-name">
-                                    <a href="{{route('front.products.show',$item->products->slug)}}">
+                                    <a href="{{route('front.products.show',$item->products->id)}}">
                                         {{$item->products->name}}
                                     </a>
                                 </h5>
-                                <p class="product-des">
-                                    <span><em>Type:</em> Mirrorless</span>
-                                    <span><em>Color:</em> Black</span>
-                                </p>
+
                             </div>
                             <div class="col-lg-2 col-md-2 col-12">
                                 <div class="count-input">

@@ -43,6 +43,7 @@ class CheckoutController extends Controller
 
             $order = Order::create([
                 'user_id' => Auth::id(),
+                'total' => $cart->total(),
                 'payment_method' => 'stripe',
             ]);
             foreach ($items as $item) {

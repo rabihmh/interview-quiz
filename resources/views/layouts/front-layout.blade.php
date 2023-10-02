@@ -30,42 +30,13 @@
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-4 col-md-4 col-12">
-                    <div class="top-left">
-                        <ul class="menu-top-link">
-                            <li>
-                                <div class="select-position">
-                                    <select id="select4">
-                                        <option value="0" selected>$ USD</option>
-                                        <option value="1">€ EURO</option>
-                                        <option value="2">$ CAD</option>
-                                        <option value="3">₹ INR</option>
-                                        <option value="4">¥ CNY</option>
-                                        <option value="5">৳ BDT</option>
-                                    </select>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="select-position">
-                                    <select id="select5">
-                                        <option value="0" selected>English</option>
-                                        <option value="1">Español</option>
-                                        <option value="2">Filipino</option>
-                                        <option value="3">Français</option>
-                                        <option value="4">العربية</option>
-                                        <option value="5">हिन्दी</option>
-                                        <option value="6">বাংলা</option>
-                                    </select>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
+
                 </div>
                 <div class="col-lg-4 col-md-4 col-12">
                     <div class="top-middle">
                         <ul class="useful-links">
                             <li><a href="{{route('home')}}">Home</a></li>
                             <li><a href="{{route('front.products.index')}}">Products</a></li>
-                            <li><a href="#">Contact Us</a></li>
                         </ul>
                     </div>
                 </div>
@@ -89,10 +60,10 @@
 
                             <ul class="user-login">
                                 <li>
-                                    <a href="{{route('login')}}">{{Lang::get('Sign In')}}</a>
+                                    <a href="{{route('login')}}">Sign In</a>
                                 </li>
                                 <li>
-                                    <a href="{{route('register')}}">{{__('Register')}}</a>
+                                    <a href="{{route('register')}}">Register</a>
                                 </li>
                             </ul>
                         @endauth
@@ -114,32 +85,8 @@
 
                 </div>
                 <div class="col-lg-5 col-md-7 d-xs-none">
-
                     <div class="main-menu-search">
-
-                        <div class="navbar-search search-style-5">
-                            <div class="search-select">
-                                <div class="select-position">
-                                    <select id="select1">
-                                        <option selected>All</option>
-                                        <option value="1">option 01</option>
-                                        <option value="2">option 02</option>
-                                        <option value="3">option 03</option>
-                                        <option value="4">option 04</option>
-                                        <option value="5">option 05</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="search-input">
-                                <input type="text" placeholder="Search">
-                            </div>
-                            <div class="search-btn">
-                                <button><i class="lni lni-search-alt"></i></button>
-                            </div>
-                        </div>
-
                     </div>
-
                 </div>
                 <div class="col-lg-4 col-md-2 col-5">
                     <div class="middle-right-area">
@@ -170,39 +117,7 @@
             <div class="col-lg-8 col-md-6 col-12">
                 <div class="nav-inner">
                     <!-- Start Mega Category Menu -->
-                    <div class="mega-category-menu">
-                        <span class="cat-button"><i class="lni lni-menu"></i>All Categories</span>
-                        <ul class="sub-category">
-                            <li>
-                                <a href="product-grids.html">Electronics <i class="lni lni-chevron-right"></i></a>
-                                <ul class="inner-sub-category">
-                                    <li><a href="#">Digital Cameras</a></li>
-                                    <li><a href="#">Camcorders</a></li>
-                                    <li><a href="#">Camera Drones</a></li>
-                                    <li><a href="#">Smart Watches</a></li>
-                                    <li><a href="#">Headphones</a></li>
-                                    <li><a href="#">MP3 Players</a></li>
-                                    <li><a href="#">Microphones</a></li>
-                                    <li><a href="#">Chargers</a></li>
-                                    <li><a href="#">Batteries</a></li>
-                                    <li>
-                                        <a href="#">Cables & Adapters</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li><a href="#">accessories</a></li>
-                            <li><a href="#">Televisions</a></li>
-                            <li><a href="#">best selling</a></li>
-                            <li><a href="#">top 100 offer</a></li>
-                            <li><a href="#">sunglass</a></li>
-                            <li><a href="#">watch</a></li>
-                            <li><a href="#">man’s product</a></li>
-                            <li><a href="#">Home Audio & Theater</a></li>
-                            <li><a href="#">Computers & Tablets </a></li>
-                            <li><a href="#">Video Games </a></li>
-                            <li><a href="#">Home Appliances </a></li>
-                        </ul>
-                    </div>
+                    {{--                    <x-front-categories/>           --}}
                     <!-- End Mega Category Menu -->
                     <!-- Start Navbar -->
                     <!-- End Navbar -->

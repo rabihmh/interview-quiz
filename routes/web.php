@@ -22,6 +22,7 @@ Route::get('/', [HomeController::class, 'home'])->name('home');
 Route::group(['middleware' => ['auth:web'], 'as' => 'front.'], function () {
     Route::get('products/search/', [ProductsController::class, 'search'])->name('products.search');
     Route::resource('products', ProductsController::class)->only(['index', 'show']);
+    Route::get('products/category/{category_id}', [ProductsController::class, 'getByCategories'])->name('products.by.category');
     Route::resource('cart', CartController::class);
     Route::get('checkout', [CheckoutController::class, 'create'])->name('checkout');
     Route::post('checkout', [CheckoutController::class, 'store'])->name('checkout.post');

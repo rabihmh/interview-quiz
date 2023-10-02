@@ -39,5 +39,10 @@ class ProductsController extends Controller
 
     }
 
+    public function getByCategories(string $category_id)
+    {
+        $products = Product::query()->where('category_id', $category_id)->get();
+        return $products;
+    }
 
 }

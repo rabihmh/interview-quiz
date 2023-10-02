@@ -8,6 +8,7 @@ use App\Models\Category;
 use App\Traits\DeleteImageTrait;
 use App\Traits\UploadImageTrait;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
 
@@ -50,7 +51,8 @@ class CategoriesController extends Controller
         if ($request->hasFile('image')) {
             $data['image'] = $this->uploadImage($request->file('image'), 'categories');
         }
-        Category::query()->create($data);
+        $category = Category::query()->create($data);
+        Cache::tags('categories')->put('category_' . $category->id, $category, now()->addDays(7));
         return redirect()->route('admin.categories.index')->with('success', 'category created successfully');
     }
 

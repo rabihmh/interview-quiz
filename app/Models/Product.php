@@ -57,7 +57,7 @@ class Product extends Model
             return 0;
         }
 
-        return round(100 * $this->price / $this->compare_price, 1) - 100. . '%';
+        return round(100 * $this->price / $this->compare_price, 1) . '%';
     }
 
 }

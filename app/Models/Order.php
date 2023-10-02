@@ -15,7 +15,7 @@ class Order extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id', 'payment_methode', 'status', 'payment_status'
+        'user_id', 'payment_methode', 'status', 'payment_status', 'total'
     ];
 
     public function user(): BelongsTo
@@ -58,7 +58,6 @@ class Order extends Model
     public function shippingAddress(): HasOne
     {
         return $this->hasOne(OrderAddress::class, 'order_id', 'id')->where('type', '=', 'shipping');
-        //return $this->addresses()->where('type', '=', 'shipping'); it return collection
     }
 
 
