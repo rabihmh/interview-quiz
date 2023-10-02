@@ -108,12 +108,19 @@ class CartController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param int $id
+     * @param string $id
      * @return JsonResponse
      */
-    public function destroy($id): JsonResponse
+    public function destroy(string $id): JsonResponse
     {
+        $cartItem = Cart::findOrFail($id);
+
+        $product = Product::where('id', $cartItem->product_id)->first();
+        $product->quantity += $cartItem->quantity;
+        $product->save();
+
         $this->cart->delete($id);
+
         return response()->json([
             'message' => 'Item deleted',
         ]);

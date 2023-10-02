@@ -47,6 +47,7 @@ class PaymentsController extends Controller
             if ($paymentIntent->status == 'succeeded') {
 
                 $payment = new Payment();
+                $order->payment_method = 'stripe';
                 $order->payment_status = 'paid';
                 $order->status = 'completed';
                 $order->save();

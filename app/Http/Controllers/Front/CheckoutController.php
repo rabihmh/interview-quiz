@@ -21,11 +21,12 @@ class CheckoutController extends Controller
     /**
      * @throws Exception
      */
-    public function create(CartRepository $cart): View
+    public function create(CartRepository $cart): View|RedirectResponse
     {
         $countries = Countries::getNames();
         if ($cart->get()->isEmpty()) {
-            throw new exception ('Cart is Empty');
+            return redirect()->back()->with('error', 'Cart is Empty');
+            //throw new exception ('Cart is Empty');
         }
         return view('front.checkout', ['cart' => $cart, 'countries' => $countries]);
     }
@@ -44,7 +45,7 @@ class CheckoutController extends Controller
             $order = Order::create([
                 'user_id' => Auth::id(),
                 'total' => $cart->total(),
-                'payment_method' => 'stripe',
+                'payment_method' => 'cod',
             ]);
             foreach ($items as $item) {
                 OrderItem::create([
